@@ -1,0 +1,58 @@
+Circuit:
+    ☐ add buzzer
+    ☐ add 5v to Servo 
+
+Flowcharts:
+    ☐ rasberry
+    ☐ main conroller
+    ☐ find path
+    ☐ communication
+    ☐ 
+
+
+Angle: 
+    ✔ mpu setup @done(22-12-15 19:44)
+    ✔ angle calculation @done(22-12-15 19:44)
+    ✔ data protection @done(22-12-15 23:47)
+
+Steps:
+    ✔ setup interrupts @done(22-12-23 20:32)
+    ✔ setup calculators @done(22-12-23 20:33)
+    ✔ filtring @done(22-12-23 20:33)
+    ✔ add count enable @done(22-12-26 14:00)
+
+Obstacle detection:
+    ✔ init @done(22-12-24 22:01)
+    ✔ write thread function @done(22-12-24 22:35)
+    ✔ maybe adding cos or sin for real angle @done(22-12-26 17:36)
+    ✔ left and right servo angle @done(23-01-02 18:39)
+
+Distance calculation:
+    ✔ write functions: @done(22-12-26 17:36)
+        ✔ reset counter @done(22-12-26 17:35)
+        ✔ stop steps counter whn turn @done(22-12-26 17:35)
+
+Controller:
+    ✔ init @done(22-12-25 17:19)
+    ✔ callibrate mpu after init @done(22-12-29 22:41)
+    ✔ main fsm @done(22-12-26 17:35)
+    ✔ add interval and sgmnt states @done(22-12-26 17:47)
+    ✔ reverse first_end @done(22-12-29 23:38)
+    ✔ reduce sgmt_nbr @done(22-12-29 23:17)
+    ✔ change scanning logic @done(23-01-02 18:39)
+    ✔ communication task @done(23-01-02 22:45)
+    ✔ stop conditions @done(23-01-02 22:45)
+    ✔ add check distance task @done(23-02-07 15:50)
+    ✔ add angle calculation task @done(23-02-07 15:50)
+    ☐ obstacle detection
+    ✔ test left,right,set speed @done(23-02-07 15:53)
+    ✔ calculate angles in separate task @done(23-02-07 15:50)
+
+DC controller:
+    ✔ pid controller @done(22-12-29 22:53)
+    ☐ edit pd
+    ✔ l and r speed @done(22-12-29 22:40)
+    ✔ left and right turns from mpu @done(23-01-02 18:39)
+
+Obstacle detector: 
+    ☐ keep scanning
