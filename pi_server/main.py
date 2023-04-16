@@ -39,7 +39,7 @@ def read_msg(r):
 def send_image(image,w):
     print("sending image: " + image)
     send_message(image, w)
-    with open("../../Pictures/" + image, 'rb') as f:
+    with open("/home/pi/room_sweeper_robot/pi_server/Pictures/" + image, 'rb') as f:
         image_data = f.read() 
     header= f'{len(image_data):<{HEADERSIZE}}'
     print(header)
@@ -60,7 +60,7 @@ def arduino_to_clinet(w):
         w.send(smth)
 
 def save_pic(frame):
-    pics_directory="../../Pictures/"
+    pics_directory="/home/pi/room_sweeper_robot/pi_server/Pictures/"
     now = datetime.now()
     current_time = now.strftime("%m%d%Y_%H%M%S")
     cv2.imwrite(pics_directory+current_time+".png",frame)
@@ -80,9 +80,9 @@ async def client_handler_tcp(reader:asyncio.StreamReader, writer:asyncio.StreamW
         await queue.put('stop')
     elif message == 'delete':
         print('deleting all images')
-        if os.path.exists('images'):
-            for image in os.listdir('images'):
-                os.remove('images/' + image)
+        if os.path.exists('/home/pi/room_sweeper_robot/pi_server/images'):
+            for image in os.listdir('/home/pi/room_sweeper_robot/pi_server/images'):
+                os.remove('/home/pi/room_sweeper_robot/pi_server/images/' + image)
 
     elif 'config' in message:
         config = json.loads(message)
@@ -96,9 +96,9 @@ async def client_handler_tcp(reader:asyncio.StreamReader, writer:asyncio.StreamW
         message_size_bytes = await reader.read(4)
         message_size = message_size.from_bytes(message_size_bytes, 'little')
         image = await reader.read(message_size)
-        if not os.path.exists('images'):
+        if not os.path.exists('/home/pi/room_sweeper_robot/pi_server/images'):
             os.mkdir('images')
-        with open("images/" + message[1], 'wb') as f:
+        with open("/home/pi/room_sweeper_robot/pi_server/images/" + message[1], 'wb') as f:
             f.write(image)
         
     elif('getpics' in message):
@@ -106,7 +106,7 @@ async def client_handler_tcp(reader:asyncio.StreamReader, writer:asyncio.StreamW
             await queue.put('stop')
 
             #get nbr of imgs
-            _, _, files = next(os.walk("../../Pictures/"))
+            _, _, files = next(os.walk("/home/pi/room_sweeper_robot/pi_server/Pictures/"))
             nbr_of_images = len(files)
             #send 
             # send_message(str(nbr_of_images), writer)
@@ -116,12 +116,12 @@ async def client_handler_tcp(reader:asyncio.StreamReader, writer:asyncio.StreamW
             # send_image(files[0],clientsocket)
             for i in range(nbr_of_images):
                 send_image(files[i],writer)
-                # os.remove("../../Pictures/"+files[i])
+                # os.remove(".././home/pi/room_sweeper_robot/pi_server/Pictures/"+files[i])
     elif 'donepics' in message:
-            _, _, files = next(os.walk("../../Pictures/"))
+            _, _, files = next(os.walk("/home/pi/room_sweeper_robot/pi_server/Pictures"))
             nbr_of_images = len(files)
             for i in range(nbr_of_images):
-                os.remove("../../Pictures/"+files[i])
+                os.remove("/home/pi/room_sweeper_robot/pi_server/Pictures/"+files[i])
     # elif ('logs' in message):
     #     global logs
     #     send_message(logs, writer)  
@@ -180,9 +180,9 @@ async def recognition_loop():
     # Load a sample picture and learn how to recognize it.
     known_face_names = []
     known_face_encodings = []
-    for image_name in os.listdir('images'):
+    for image_name in os.listdir('/home/pi/room_sweeper_robot/pi_server/images'):
 
-        image = face_recognition.load_image_file('images/' + image_name)
+        image = face_recognition.load_image_file('/home/pi/room_sweeper_robot/pi_server/images/' + image_name)
         face_encoding = face_recognition.face_encodings(image)[0]
         known_face_names.append(image_name.split('.')[0])
         known_face_encodings.append(face_encoding)
@@ -225,8 +225,8 @@ async def recognition_loop():
             rgb_small_frame = small_frame[:, :, ::-1]
             
             # Find all the faces and face encodings in the current frame of video
-            face_locations = face_recognition.face_locations(rgb_small_frame)
-            face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+            face_locations = face_recognition.face_locations(small_frame)
+            face_encodings = face_recognition.face_encodings(small_frame, face_locations)
 
             face_names = []
             for face_encoding in face_encodings:
@@ -274,10 +274,10 @@ async def main():
     global logs
     logs = ""
 
-    # _, _, files = next(os.walk("../../Pictures/"))
+    # _, _, files = next(os.walk(".././home/pi/room_sweeper_robot/pi_server/Pictures/"))
     # nbr_of_images = len(files)
     # for i in range(nbr_of_images):
-    #     os.remove("../../Pictures/"+files[i])
+    #     os.remove(".././home/pi/room_sweeper_robot/pi_server/Pictures/"+files[i])
             
     queue = asyncio.Queue()
     recognition_queue = asyncio.Queue()
