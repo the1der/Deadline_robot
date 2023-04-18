@@ -109,7 +109,7 @@ def help():
         print("python3 client.py help   :  for this help message")
 
     else:
-        print("python client.py stop    :  to stop the robot")
+        print("py client.py stop    :  to stop the robot")
         print("python client.py start   :  to start the robot")
         print("python client.py config  :  to configure the robot from config.json file")
         print("python client.py delete  :  to delete all images that the robot can recognize")
@@ -162,4 +162,3 @@ if __name__ == '__main__':
         else:
             print("unknown argument")
             help()
-
